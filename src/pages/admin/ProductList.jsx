@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -10,6 +10,7 @@ import {
   Typography,
   Box,
 } from "@mui/material";
+import axios from "axios";
 
 // Sample static product data
 const products = [
@@ -18,7 +19,31 @@ const products = [
   { id: 3, name: "Watch", category: "Accessories", price: "$250" },
 ];
 
+
+
 const ProductList = () => {
+  const [productList, setProductList] = useState([])
+  useEffect(()=>{
+    try{
+      axios.get("https://jsonplaceholder.typicode.com/posts")
+      .then((response)=>{
+        // console.log(response);
+        setProductList(response.data)
+        
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error.message)
+      })
+      
+    }catch(error){
+      console.log(error);
+      alert(error.message);
+      
+    }
+  },[])
+  console.log("Products",productList);
+  
   return (
     <Box>
       <Typography variant="h5" gutterBottom>

@@ -12,20 +12,15 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
-
-  // Dummy user data
-  const [user, setUser] = useState({
-    name: "John Doe",
-    email: "john@example.com",
-    avatar: "", // Optional profile image URL
-  });
+  const signupData = JSON.parse(localStorage.getItem("SignUpData"));
 
   const handleSignOut = () => {
     const confirmLogout = window.confirm("Do you really want to sign out?");
     if (confirmLogout) {
-      setUser(null); // Clear user state (or handle auth logout)
+      localStorage.removeItem("SignUpData");
+      localStorage.removeItem("loginData");
       alert("Signed out successfully!");
-      navigate("/login"); // Redirect to login
+      navigate("/signup"); 
     }
   };
 
@@ -36,29 +31,20 @@ const Navbar = () => {
           Admin Dashboard
         </Typography>
 
-        {user && (
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {/* Avatar */}
-            {user.avatar ? (
-              <Avatar src={user.avatar} alt={user.name} />
-            ) : (
-              <Avatar>
-                <AccountCircleIcon />
-              </Avatar>
-            )}
-
-            {/* User Info */}
-            <Box sx={{ display: "flex", flexDirection: "column", color: "#fff" }}>
-              <Typography variant="body1">{user.name}</Typography>
-              <Typography variant="body2">{user.email}</Typography>
-            </Box>
-
-            {/* Sign Out */}
-            <Button variant="outlined" color="inherit" onClick={handleSignOut}>
-              Sign Out
-            </Button>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        
+          <Avatar src={signupData?.name} alt={signupData?.name} />
+          {/* User Info */}
+          <Box sx={{ display: "flex", flexDirection: "column", color: "#fff" }}>
+            <Typography variant="body1">{signupData?.name}</Typography>
+            <Typography variant="body2">{signupData?.email}</Typography>
           </Box>
-        )}
+
+          {/* Sign Out */}
+          <Button variant="outlined" color="inherit" onClick={handleSignOut}>
+            Sign Out
+          </Button>
+        </Box>
       </Toolbar>
     </AppBar>
   );

@@ -66,11 +66,16 @@ const SignUp = () => {
     e.preventDefault();
 
     if (validate()) {
+       console.log("formdata",formData);
+       localStorage.setItem("SignUpData",JSON.stringify(formData))
       alert("Signup successful!");
       navigate("/login");
     } else {
       alert("Please fix the errors before submitting.");
     }
+
+   
+    
   };
 
   return (

@@ -13,11 +13,22 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    userId: Math.random(),
     email: "",
     password: "",
   });
 
+
+
   const [error, setError] = useState({});
+
+  const SignupData = JSON.parse(localStorage.getItem("SignUpData")) || {}
+  // console.log("signup data", SignupData);
+
+  const email = SignupData.email 
+  
+  console.log("Email",email);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +62,7 @@ const Login = () => {
       setError(newError);
 
       console.log("Validation errors:", newError);
-      
+
       return Object.keys(newError).length === 0;
       
     }
@@ -60,8 +71,21 @@ const Login = () => {
     e.preventDefault();
 
     if (validate()) {
-      alert("Login successful!");
-      navigate("/admin/list");
+
+      if (email){
+        if(formData.email === email){
+          localStorage.setItem("loginData",JSON.stringify(formData))
+             alert("Login successful!");
+            navigate("/admin/list");
+        }else{
+          alert("Email doesn't match")
+        }
+       
+      }else{
+        alert("First Signup")
+        navigate("/signup");
+      }
+     
     } else {
       alert("Please fix the errors before submitting.");
     }
